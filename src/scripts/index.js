@@ -1,5 +1,6 @@
 import "../pages/index.css";
-import { placesList, renderCards, createCard, cardzoom, cardLike, deleteElement } from './cards.js'
+import { initialCards } from "./cards.js"
+import { placesList, createCard, cardLike, deleteElement } from "./card.js"
 import { addOverlayClickListener, openPopup, closePopup} from "./modal.js";
 
 //Кнопки
@@ -8,7 +9,7 @@ const popupEdit = document.querySelector(".popup_type_edit");
 export const popupImageContainer = document.querySelector(".popup_type_image");
 const profileAddbtn = document.querySelector(".profile__add-button");
 const profileEditBtn = document.querySelector(".profile__edit-button");
-const buttonClosePopupProfile = document.querySelector(".popup__close");
+const buttonClosePopupProfile = popupEdit.querySelector(".popup__close");
 
 // Для попапа "Редактировать профиль"
 const editProfilePopup = document.querySelector(".popup_type_edit");
@@ -26,7 +27,20 @@ const newCardForm = newCardContent.querySelector('.popup__form');
 const sityNameInput = newCardContent.querySelector(".popup__input_type_card-name");
 const imgUrlInput = newCardContent.querySelector(".popup__input_type_url");
 
-//вызываем фукнцию рендера карточек
+//Для попипа "Зума картинки"
+const cardPopupZoomImage = document.querySelector(".popup__image");
+const cardPopupZoomTitle = document.querySelector(".popup__caption");
+
+//функция для отображения карточки на странице
+function renderCards() {
+  initialCards.forEach(function (card) {
+    const cardElement = createCard(card, deleteElement, cardLike, function() {
+      cardzoom(card);
+    });
+    //добавляем карточки в конец списки
+    placesList.append(cardElement);
+  });
+}
 renderCards();
 
 //POPUP редактирование профиля
@@ -88,3 +102,12 @@ function addCard(event) {
 }
 
 newCardForm.addEventListener("submit", addCard);
+
+
+//функция зума карточки
+function cardzoom({ name, link }) {
+  cardPopupZoomTitle.textContent = name;
+  cardPopupZoomImage.src = link;
+  cardPopupZoomImage.alt = `Карточка ${name}`;
+  openPopup(popupImageContainer);
+}
