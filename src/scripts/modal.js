@@ -32,4 +32,4 @@ function closeEscPopup(e) {
   }
 }
 
-export { addOverlayClickListener, openPopup, closePopup};
+export { addOverlayClickListener, openPopup, closePopup };

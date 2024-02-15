@@ -1,3 +1,15 @@
 .popup__form {
   margin-top: 27px;
 }
+
+.error_msg {
+  color: #ff0000;
+  font-size: 0.8em;
+}
+
+.popup__button:disabled {
+  background: none;
+  border: 1px solid #c5c5c5;
+  color: #c5c5c5; /* Меняем цвет текста на серый */
+  pointer-events: none;
+}

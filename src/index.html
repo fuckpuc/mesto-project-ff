@@ -14,7 +14,11 @@
   </header>
   <main class="content">
     <section class="profile page__section">
-      <div class="profile__image"></div>
+      <div class="profile__image">
+        <div class="profile__overlay">
+          <button class="profile__edit-avatar"></button>
+        </div>
+      </div>
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
         <button class="profile__edit-button" type="button"></button>
@@ -38,19 +42,34 @@
       <h3 class="popup__title">Редактировать профиль</h3>
       <form class="popup__form" name="edit-profile">
         <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required>
+        <span class="name_error-message error_msg"></span>
         <input type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" required>
-        <button type="submit" class="button popup__button">Сохранить</button>
+        <span class="job_erorr-message error_msg"></span>
+        <button type="submit" class="button profile-save_button popup__button">Сохранить</button>
       </form>
     </div>
   </div>
+  <div class="popup popup_is-animated popup_type_avatar-edit">
+    <div class="popup__content">
+      <button type="button" class="popup__close"></button>
+      <h3 class="popup__title">Обновить аватар</h3>
+      <form class="popup__form" name="edit-avatar">
+        <input type="url" name="avatar-link" class="popup__input popup__input_type_avatarka" placeholder="Ссылка на новый аватар" required>
+        <span class="avatar-error-message error_msg"></span>
+        <button type="submit" class="button avatar-save_button popup__button">Сохранить</button>
+      </form>
+    </div>
+  </div>  
   <div class="popup popup_is-animated popup_type_new-card">
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Новое место</h3>
       <form class="popup__form" name="new-place">
         <input type="text" name="place-name" class="popup__input popup__input_type_card-name" placeholder="Название" required>
+        <span class="sity-erorr-message error_msg"></span>
         <input type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
-        <button type="submit" class="button popup__button">Сохранить</button>
+        <span class="image-error_message error_msg"></span>
+        <button type="submit" class="button new-place_button popup__button">Сохранить</button>
       </form>
     </div>
   </div>
@@ -71,6 +90,7 @@
       <h2 class="card__title">
       </h2>
       <button type="button" class="card__like-button"></button>
+      <span class="card__likes-count"></span>
     </div>
   </li>
 </template>

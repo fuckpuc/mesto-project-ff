@@ -1,13 +1,53 @@
 .profile__image {
-  background: url('../../../images/avatar.jpg');
+  background: url("../../../images/avatar.jpg");
   width: 120px;
   height: 120px;
   -webkit-border-radius: 50%;
+  position: relative;
   -moz-border-radius: 50%;
   border-radius: 50%;
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+}
+
+.profile__image:hover {
+  cursor: pointer;
+}
+
+.profile__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.7); /* Черный полупрозрачный фон */
+  opacity: 0; /* По умолчанию прозрачный */
+  transition: opacity 0.3s ease; /* Плавное изменение прозрачности */
+}
+
+.profile__image:hover .profile__overlay {
+  opacity: 1;
+}
+
+.profile__edit-avatar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: transparent url("../../../images/edit-icon.svg") center no-repeat;
+  background-size: cover;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.3s ease; /* Плавное появление */
+}
+
+.profile__image:hover .profile__edit-avatar {
+  opacity: 1; /* При наведении делаем карандаш видимым */
 }
 
 @media screen and (max-width: 740px) {
