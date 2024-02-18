@@ -1,5 +1,6 @@
 //получаем весь контент от темплейт
-import { token, cohortId, deletedCard } from "./api.js";
+import { deletedCard} from "./api.js";
+import { userId } from "./index.js";
 const cardTemplate = document.querySelector("#card-template").content;
 const placesList = document.querySelector(".places__list");
 
@@ -7,8 +8,8 @@ const placesList = document.querySelector(".places__list");
 function createCard(
   { _id, name, link, owner, likes },
   deleteCard,
-  cardLike,
-  zoomcard,
+  cardsLike,
+  zoomCard,
   currentUserId
 ) {
   const card = cardTemplate.querySelector(".card").cloneNode(true);
@@ -20,27 +21,40 @@ function createCard(
   cardImage.src = link;
   cardImage.alt = `Карточка ${name}`;
   cardTitle.innerText = name;
-    likesCounter.textContent = likes.length;
-    const userId = "b77843909fb6288163bb8892";
-    const isLiked = likes.some((user) => user._id === userId);
-    if (isLiked) {
-      likeButton.classList.add("card__like-button_is-active");
-    }
-    if (owner._id === currentUserId) {
-      delButton.style.display = "block";
-    } else {
-      delButton.style.display = "none";
-    }
-    delButton.addEventListener("click", function () {
-      deleteCard(card, _id);
-      deletedCard(_id);
-    });
+  likesCounter.textContent = likes.length;
+  const isLiked = likes.some((user) => user._id === userId);
+  if (isLiked) {
+    likeButton.classList.add("card__like-button_is-active");
+  }
+  if (owner._id === currentUserId) {
+    delButton.style.display = "block";
+  } else {
+    delButton.style.display = "none";
+  }
+  delButton.addEventListener("click", function () {
+    deletedCard(_id)
+      .then(() => {
+        deleteCard(card);
+      })
+      .catch((error) => {
+        console.error("Ошибка при удаление карточки:", error);
+      });
+  });
 
-  cardImage.addEventListener("click", zoomcard);
+  cardImage.addEventListener("click", zoomCard);
 
   // likeButton.addEventListener("click", likeCard);
-  likeButton.addEventListener("click", function (evt) {
-    cardLike(evt, _id, likeButton, likesCounter);
+  likeButton.addEventListener("click", function () {
+    cardsLike(_id, likeButton)
+      .then((updatedCardData) => {
+        // Обновляем счётчик лайков
+        likesCounter.textContent = updatedCardData.likes.length;
+        // Меняем цвет кнопки лайка
+        likeButton.classList.toggle("card__like-button_is-active");
+      })
+      .catch((error) => {
+        console.error("Ошибка при поставления лайка:", error);
+      });
   });
   return card;
 }
@@ -50,31 +64,4 @@ function deleteElement(element) {
   element.remove();
 }
 
-function cardLike(evt, cardId, likeButton, likesCounter) {
-  const isLiked = likeButton.classList.contains("card__like-button_is-active");
-
-  fetch(`https://nomoreparties.co/v1/${cohortId}/cards/likes/${cardId}`, {
-    method: isLiked ? "DELETE" : "PUT",
-    headers: {
-      authorization: token,
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Ошибка: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((updatedCardData) => {
-      // для обновления счётчика лайков
-      likesCounter.textContent = updatedCardData.likes.length;
-      // чтобы менять цвет кнопки лайка
-      likeButton.classList.toggle("card__like-button_is-active");
-    })
-    .catch((error) => {
-      console.error("Ошибка при постановке лайка", error);
-    });
-}
-
-export { createCard, deleteElement, cardLike, placesList };
+export { createCard, deleteElement, placesList };

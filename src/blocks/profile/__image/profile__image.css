@@ -28,7 +28,7 @@
 }
 
 .profile__image:hover .profile__overlay {
-  opacity: 1;
+  opacity: 1; 
 }
 
 .profile__edit-avatar {

@@ -1,5 +1,5 @@
 //Закрытия Popup по клику на BackGround
-function addOverlayClickListener(popupElement, closePopFunction) {
+function addCloseListeners(popupElement, closePopFunction) {
   popupElement.addEventListener("click", function (elem) {
     if (
       elem.target.classList.contains("popup") ||
@@ -32,4 +32,4 @@ function closeEscPopup(e) {
   }
 }
 
-export { addOverlayClickListener, openPopup, closePopup };
+export { addCloseListeners, openPopup, closePopup };
