@@ -66,7 +66,7 @@ profileEditBtn.addEventListener("click", function () {
   //Установить значение в input текущее значение данных
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDecrtiption.textContent;
-  clearValidation(document.querySelector('.popup_type_edit form'));
+  clearValidation(editProfileForm, validationData);
   openPopup(popupEdit);
 });
 
@@ -76,7 +76,7 @@ addCloseListeners(popupEdit, closePopup);
 //
 //POPUP добавление картинки
 profileAddbtn.addEventListener("click", function () {
-  clearValidation(document.querySelector('.popup_type_new-card form'));
+  clearValidation(newCardForm, validationData);
   sityNameInput.value = ""; 
   imgUrlInput.value = "";
   openPopup(popupAddNewCard); 
@@ -189,16 +189,21 @@ function addCard(event) {
 }
 
 newCardForm.addEventListener("submit", addCard);
-enableValidation({
+
+const validationData = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
-});
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'error_msg_visible'
+}
+enableValidation(validationData);
 
 profileAvatar.addEventListener("click", () => {
   const avatarLink = profileAvatartForm.elements["avatar-link"];
   avatarLink.value = '';
-  clearValidation(document.querySelector('.popup_type_avatar-edit form'));
+  clearValidation(profileAvatartForm, validationData);
   openPopup(profileAvatartPopup);
 });
 

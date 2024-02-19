@@ -18,9 +18,6 @@ function request(endpoint, method, body) {
     body: JSON.stringify(body)
   })
   .then(checkResponse)
-  .catch((error) => {
-    console.error("Ошибка при выполнении запроса:", error);
-  });
 }
 
 // Функция проверки ответа
